@@ -1,5 +1,9 @@
 # linux-system-administration
 
+> "Unix is simple. It takes a genius (or at any rate, a programmer) to understand and appreciate its simplicity"  -*Dennis Ritchie*
+
+
+
 Includes topics such as: building and deploying systems from scratch, troubleshooting difficult system and network problems, software configuration, account management, basic shell scripting, network configuration and the mitigation of common security vulnerabilities.
 
 ## Purpose
