@@ -17,3 +17,4 @@ Give students an understanding of a UNIX or Linux environment, and provide a mar
 ## Notes
 
 - [Core Components of the OS](https://github.com/mikebrownie/linux-system-administration/blob/main/notes/core-components.md)
+- [Bash Reference](https://github.com/mikebrownie/linux-system-administration/blob/main/notes/bash.md)
