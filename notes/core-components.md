@@ -43,13 +43,13 @@ Where error messages are written to
 
 We can direct output into a file with `>`. Ex: redirect STDOUT to file 
 
-```sh
+```bash
 0 > file.txt
 ```
 
 We can pipe output from **process a** to **process b** with the pipe, `|`. Ex: find data in file.txt: 
 
-```sh
+```bash
 cat file.txt | grep 'data'
 ```
 
@@ -63,4 +63,26 @@ Any system with EMACS will have vim. Professor reccomends studying vim at http:/
 
 #### NANO
 
-"Or wimp out entirely and use ~emacs~ **nano**
+"Or wimp out entirely and use ~emacs~ **nano**"
+
+### Local Variables
+
+A variable in the shell is similar to vars in PLs. We have local, and global/environment
+
+```bash
+test="hello world"
+echo test
+```
+
+### Environment Variables
+
+An environment variable is passed to all commands that execute in the shell, who can affect the way a running process will behave
+
+```bash
+export test="hello world"
+```
+
+#### $PATH 
+
+Contains a list of directories, colon seperated, that the shell should search for executable programs to run when a command is typed. i.e. all the `bin/` binaries. 
+
