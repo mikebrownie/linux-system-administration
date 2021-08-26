@@ -47,6 +47,8 @@ We can direct output into a file with `>`. Ex: redirect STDOUT to file
 0 > file.txt
 ```
 
+The `>>` can be used to append instead of overwriting
+
 We can pipe output from **process a** to **process b** with the pipe, `|`. Ex: find data in file.txt: 
 
 ```bash
