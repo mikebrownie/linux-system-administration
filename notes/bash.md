@@ -1,6 +1,6 @@
 # Bash
 
-You can just use `man cmd` to get a better view but for quick reference: 
+You can just use `man cmd` to get a better view but for quick reference.
 
 ## Basics
 
@@ -98,7 +98,6 @@ cat /proc/meminfo
 ## Environment
 
 
-
 Print all env variables
 ```bash
 set
@@ -157,3 +156,38 @@ flags:
 - g global
 - r regex
 
+## Conditionals
+
+### Exit status $?
+
+Every program returns an exit status (0 is good)
+
+```bash
+ls ; echo $?
+```
+
+```bash
+touch /root/foo ; echo $?
+```
+
+- a && b : execute b if a was successful
+- a && b : execute b regardless of a's success
+
+## String interpolation
+
+Double and single quotes distinguish between iterpolable strings and literals
+
+```bash
+foo="bar"
+echo 'the variable is $foo'
+echo 'the value of foo is $foo'
+```
+
+## Permissions
+
+List permission of a file
+```bash
+ls -al
+```
+Dashes mean no permission, r=read, w=write, x=execute
+ex: rwxrw-r-- user can rwx, group can rw, any can read 
