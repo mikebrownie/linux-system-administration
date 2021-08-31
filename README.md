@@ -14,7 +14,10 @@ Give students an understanding of a UNIX or Linux environment, and provide a mar
 - Effectively operate a Linux system inside of a network environment
 - Design and deploy Linux systems to accomplish common tasks
 
+
 ## Notes
 
+- [This is Holy](https://github.com/mikebrownie/linux-system-administration/blob/main/THE_UNIX_PHILOSOPHY)
 - [Core Components of the OS](https://github.com/mikebrownie/linux-system-administration/blob/main/notes/core-components.md)
 - [Bash Reference](https://github.com/mikebrownie/linux-system-administration/blob/main/notes/bash.md)
+- [Shell Scripting](https://github.com/mikebrownie/linux-system-administration/blob/main/notes/shell.md)
