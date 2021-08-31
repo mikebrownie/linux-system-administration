@@ -191,3 +191,15 @@ ls -al
 ```
 Dashes mean no permission, r=read, w=write, x=execute
 ex: rwxrw-r-- user can rwx, group can rw, any can read 
+- R 4
+- W 2
+- X 1
+
+### Setting permissions
+
+chmod can be used to change the modes, i.e. the permissions of a file
+
+```bash
+chmod 755 /tmp/file
+```
+give RWX
