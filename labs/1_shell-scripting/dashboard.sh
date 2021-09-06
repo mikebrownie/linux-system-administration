@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# This script displays commonly used info on a cool dashboard 
 
 display_mem_res()
 {
@@ -8,7 +9,6 @@ display_mem_res()
   ram=$(free -m | awk 'FNR == 2 {print $3}')
   echo "Free RAM: $ram MB"
 }
-
 
 display_net_info()
 {
@@ -28,16 +28,26 @@ display_net_info()
 
 display_account_info()
 {
-echo 'ACCOUNT INFORMATION -------------------------------------'
-num_users=$(cat /etc/passwd | wc -l)
-num_active=$(who | wc -l)
-shells=$(cat /etc/passwd | cut -d ':' -f 7 | sort | uniq -c)
-echo "Total users: $num_users"
-echo "Active users: $num_active"
-echo "Count + Shells:"
-echo $shells
+  echo 'ACCOUNT INFORMATION -------------------------------------'
+  num_users=$(cat /etc/passwd | wc -l)
+  num_active=$(who | wc -l)
+  shells=$(cat /etc/passwd | cut -d ':' -f 7 | sort | uniq -c)
+  echo "Total users: $num_users"
+  echo "Active users: $num_active"
+  echo "Count + Shells:"
+  echo $shells
+}
+
+display_filesys_info()
+{
+  echo 'FILESYSTEM INFORMATION ----------------------------------'
+  iused=$(df --inodes / | awk 'FNR == 2 {print $3}')
+  echo "Total Number of Files (inodes used): $iused"
+  dirs=$(find / -type d | wc -l)
+  echo "Total Number of Directories: $dirs"
 }
 
 display_mem_res
 display_net_info
 display_account_info
+display_filesys_info
