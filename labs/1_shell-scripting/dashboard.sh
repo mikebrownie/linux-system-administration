@@ -3,7 +3,7 @@
 display_mem_res()
 {
   echo 'CPU AND MEMORY RESOURCES --------------------------------'
-  avgs=$(uptime | awk '{print $7,$8,$9,$10}')
+  avgs=$(uptime | awk '{print $8,$9,$10}')
   echo "CPU Load Average: $avgs"
   ram=$(free -m | awk 'FNR == 2 {print $3}')
   echo "Free RAM: $ram MB"
@@ -24,8 +24,20 @@ display_net_info()
   is_connected=$(ping -c 1 8.8.8.8 | grep '1 received' | wc -l)
 
   if [ $is_connected = '1' ]; then echo "Internet connection: True"; else echo  "Internet connection: False"; fi
+}
 
+display_account_info()
+{
+echo 'ACCOUNT INFORMATION -------------------------------------'
+num_users=$(cat /etc/passwd | wc -l)
+num_active=$(who | wc -l)
+shells=$(cat /etc/passwd | cut -d ':' -f 7 | sort | uniq -c)
+echo "Total users: $num_users"
+echo "Active users: $num_active"
+echo "Count + Shells:"
+echo $shells
 }
 
 display_mem_res
 display_net_info
+display_account_info
