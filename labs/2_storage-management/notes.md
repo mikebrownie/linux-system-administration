@@ -174,5 +174,16 @@ unmount /dev/new/home
 rm -rf home/
 ```
 
+There is now more free space on the root partition.
 
-
+```sh
+[root@machinee /]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+devtmpfs                 233M     0  233M   0% /dev
+tmpfs                    244M     0  244M   0% /dev/shm
+tmpfs                    244M   13M  231M   6% /run
+tmpfs                    244M     0  244M   0% /sys/fs/cgroup
+/dev/mapper/centos-root  6.0G  3.9G  2.2G  65% /
+/dev/sda1                497M   97M  400M  20% /boot
+tmpfs                     49M     0   49M   0% /run/user/0
+```
