@@ -21,3 +21,8 @@ Give students an understanding of a UNIX or Linux environment, and provide a mar
 - [Core Components of the OS](https://github.com/mikebrownie/linux-system-administration/blob/main/notes/core-components.md)
 - [Bash Reference](https://github.com/mikebrownie/linux-system-administration/blob/main/notes/bash.md)
 - [Shell Scripting](https://github.com/mikebrownie/linux-system-administration/blob/main/notes/scripting.md)
+
+## Labs
+
+- [shell scripting dashboard and monitor](https://github.com/mikebrownie/linux-system-administration/tree/main/labs/1_shell-scripting)
+- [storage management with LVM](https://github.com/mikebrownie/linux-system-administration/blob/main/labs/2_storage-management/notes.md)
