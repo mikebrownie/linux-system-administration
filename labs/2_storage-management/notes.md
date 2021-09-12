@@ -132,27 +132,47 @@ mount /dev/new/tmp new/tmp -o nodev,nosuid,noexec
 
 ```sh
 mount /dev/new/home new/home -o nodev
-
 ```
 
 ## Copy the existing contents from the old disk to the new filesystems (cp or tar)
 
 Here we will use cp to copy over the contents
 
-cp 
+```
+cd /home
 
+cp -a . /root/new/home/
+```
+
+And for tmp
+
+```
+cd /tmp
+cp -a . /root/new/tmp
+```
 ## Update /etc/fstab so the new filesystems are persistent across a reboot
 
+Edit /etc/fstab
+
+```sh
+vi /etc/fstab
+```
+
+Add these entries:
+
+```sh
+/dev/new/tmp /tmp       xfs     nodev,nosuid,noexec     0 2
+/dev/new/home /home     xfs     nodev   0 2
+```
 
 ## Resize the filesystem to actually fill the volume:
 
+Lastly, I will delete unmount and delete the file on the root partition to actually free up space
+
 ```sh
-e2fsck -f /dev/new/tmp
-resize2fs /dev/new/tmp
+unmount /dev/new/home
+rm -rf home/
 ```
-&
-```sh
-e2fsck -f /dev/new/home
-resize2fs /dev/new/home
-```
+
+
 
