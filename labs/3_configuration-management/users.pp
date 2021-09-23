@@ -5,6 +5,7 @@ group { "mscott":
 user { "mscott":
     ensure => "present",
     gid => "500",
+    groups => ["managers"],
     uid => "500",
     password => '$6$WzFG7Ga3$.BbRW/DFGkx5EIakXIt1udCGxVDPs2uFZg.o8EFzH8BX7cutimTCfTUWDdyHoFjDVTFnBkUWVPGntQTRSo1zp0',
     shell => "/bin/bash",
@@ -25,6 +26,7 @@ group { "dschrute":
 user { "dschrute":
     ensure => "present",
     gid => "501",
+    groups => ["managers"],
     uid => "501",
     password => '$6$WzFG7Ga3$.BbRW/DFGkx5EIakXIt1udCGxVDPs2uFZg.o8EFzH8BX7cutimTCfTUWDdyHoFjDVTFnBkUWVPGntQTRSo1zp0',
     shell => "/bin/bash",
@@ -45,6 +47,7 @@ group { "jhalpert":
 user { "jhalpert":
     ensure => "present",
     gid => "502",
+    groups => ["managers"],
     uid => "502",
     password => '$6$WzFG7Ga3$.BbRW/DFGkx5EIakXIt1udCGxVDPs2uFZg.o8EFzH8BX7cutimTCfTUWDdyHoFjDVTFnBkUWVPGntQTRSo1zp0',
     shell => "/bin/bash",
@@ -85,6 +88,7 @@ group { "abernard":
 user { "abernard":
     ensure => "present",
     gid => "504",
+    groups => ["sales"],
     uid => "504",
     password => '$6$WzFG7Ga3$.BbRW/DFGkx5EIakXIt1udCGxVDPs2uFZg.o8EFzH8BX7cutimTCfTUWDdyHoFjDVTFnBkUWVPGntQTRSo1zp0',
     shell => "/bin/bash",
@@ -105,6 +109,8 @@ group { "amartin":
 user { "amartin":
     ensure => "present",
     gid => "505",
+    groups => ["sales"],
+    groups => ["sales"],
     uid => "505",
     password => '$6$WzFG7Ga3$.BbRW/DFGkx5EIakXIt1udCGxVDPs2uFZg.o8EFzH8BX7cutimTCfTUWDdyHoFjDVTFnBkUWVPGntQTRSo1zp0',
     shell => "/bin/bash",
@@ -205,6 +211,7 @@ group { "kmalone":
 user { "kmalone":
     ensure => "present",
     gid => "510",
+    groups => ["sales"],
     uid => "510",
     password => '$6$WzFG7Ga3$.BbRW/DFGkx5EIakXIt1udCGxVDPs2uFZg.o8EFzH8BX7cutimTCfTUWDdyHoFjDVTFnBkUWVPGntQTRSo1zp0',
     shell => "/bin/bash",
@@ -225,6 +232,7 @@ group { "plapin":
 user { "plapin":
     ensure => "present",
     gid => "511",
+    groups => ["sales"],
     uid => "511",
     password => '$6$WzFG7Ga3$.BbRW/DFGkx5EIakXIt1udCGxVDPs2uFZg.o8EFzH8BX7cutimTCfTUWDdyHoFjDVTFnBkUWVPGntQTRSo1zp0',
     shell => "/bin/bash",
@@ -245,6 +253,7 @@ group { "shudson":
 user { "shudson":
     ensure => "present",
     gid => "512",
+    groups => ["sales"],
     uid => "512",
     password => '$6$WzFG7Ga3$.BbRW/DFGkx5EIakXIt1udCGxVDPs2uFZg.o8EFzH8BX7cutimTCfTUWDdyHoFjDVTFnBkUWVPGntQTRSo1zp0',
     shell => "/bin/bash",

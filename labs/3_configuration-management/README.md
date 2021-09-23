@@ -10,3 +10,9 @@
 
 5) Use exact names for users mscott, dschrute, jhalpert, pbeesly, abernard, amartin, kkapoor, omartinez, dphilbin, tflenderson, kmalone, plapin, shudson, mpalmer, cbratton.
 
+## Approach
+
+First, I wrote a python script gen_users.py to generate a puppet file, `users.pp`, with all the users, groups, and home 
+directories.
+
+This was not enough, so I manually added in some group fields according to the org chart.
