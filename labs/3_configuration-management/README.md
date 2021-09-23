@@ -1,4 +1,8 @@
-# Tasks
+# Configuration Management
+
+Using [puppet](https://puppet.com/)
+
+## Tasks
 
 1) Set up accounts on all machines for all D-M employees and yourself.  Each user should have a username of the form first-initial last-name, password, unique uid, unique gid, /path/to/login/shell, and /path/to/home/directory/.  The grading script is very strict about user names.  usernames must be all lowercase with no punctuation. Account data must be the same on all machines.  The Gecos field does not matter.
 
@@ -12,7 +16,11 @@
 
 ## Approach
 
-First, I wrote a python script gen_users.py to generate a puppet file, `users.pp`, with all the users, groups, and home 
+First, I wrote a python script, `gen_users.py`, to generate a puppet file, `users.pp`, with all the users, groups, and home 
 directories.
 
-This was not enough, so I manually added in some group fields according to the org chart.
+Python3 was not enough, so I
+  - Manually added in some group fields to `users.pp` according to the org chart. 
+  - Manually added in some shared folders to `users.pp`.     
+  - Created a `groups.pp` file with group declarations.
+
