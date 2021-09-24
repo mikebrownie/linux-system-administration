@@ -24,3 +24,20 @@ Python3 was not enough, so I
   - Manually added in some shared folders to `users.pp`.     
   - Created a `groups.pp` file with group declarations.
 
+## Applying to remote machine
+
+1) I scped the .pp files over to the remote machine
+
+```bash
+scp groups.pp root@100.64.0.2:/etc/puppet/groups.pp
+scp users.pp root@100.64.0.2:/etc/puppet/users.pp
+```
+
+2) From the remote machine, I sequentially applied groups.pp and users.pp
+
+```bash
+puppet apply /etc/puppet/groups.pp
+puppet apply /etc/puppet/users.pp
+```
+
+3) Repeated steps 1 and 2 for all machines.
