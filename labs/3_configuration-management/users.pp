@@ -110,7 +110,6 @@ user { "amartin":
     ensure => "present",
     gid => "505",
     groups => ["sales"],
-    groups => ["sales"],
     uid => "505",
     password => '$6$WzFG7Ga3$.BbRW/DFGkx5EIakXIt1udCGxVDPs2uFZg.o8EFzH8BX7cutimTCfTUWDdyHoFjDVTFnBkUWVPGntQTRSo1zp0',
     shell => "/bin/bash",
