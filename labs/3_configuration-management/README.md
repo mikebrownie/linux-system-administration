@@ -41,3 +41,9 @@ puppet apply /etc/puppet/users.pp
 ```
 
 3) Repeated steps 1 and 2 for all machines.
+4) For machine E, create shared directory with shared.pp file
+
+```bash
+puppet apply /etc/puppet/shared.pp
+```
+
