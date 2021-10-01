@@ -176,6 +176,23 @@ E) No changes necessary
 
 6) Sudo access to all commands, on all machines, should be granted to responsible users who have specifically requested it.  This includes your own personal account.
 
+On all machines, run
+
+```
+usermod -a -G wheel mbrown
+usermod -a -G wheel dschrute
+```
+
 7) Michael Scott should be allowed to shut all servers down with no less than 2 hours notice to other users (see man shutdown).  He should be limited to shutting them down, not restarting.  He should also be allowed to cancel a pending shutdown.
 
+**How to do conditional?**
+
+```
+mscott ALL=(all) /sbin/shutdown -t 7200,
+mscott ALL=(all) /sbin/shutdown -c,
+mscott ALL=(all) /sbin/halt,
+```
+
 8) Password changes must be enforced on all servers such that pam ensures that new passwords are at least 10 characters long, and contain at least 2 digits, 2 uppercase, and 1 non alphanumeric character.
+
+
