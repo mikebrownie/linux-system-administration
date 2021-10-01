@@ -107,15 +107,72 @@ And next setting their group as owners of the directory
 chown -R :webdevs /var/www/dundermifflin/
 ```
 
-Then settings correct permissions
+Then setting correct permissions for reading and writing
 ```
 chmod -R 775 /var/www/dundermifflin/
 ```
 
+
 4) The default umask must be adjusted on machines A, C, D, and E so that when new directories are created the owner can read, write, and execute, the group can read, write and execute, and others have no access.  You need to do either the reading from the prior homework or some independent research to identify how to do this.
+
+umask disallows permissions, so here we need to set the umask to the inverse of what is would be for chmod.
+```shell
+vim /etc/profile.d/umask.sh
+```
+
+and add this line to set umask for users with gid greater than 1999
+```
+if [ $UID -gt 199 ]; then
+        umask 007
+fi
+```
+
+Do so on A, C, D, and E
+
+**Issue on machine E**
 
 5) Access on each server should be restricted such that only users who need to are allowed to log in.  The one exception is all users should be allowed to log in on machine E.  Access restriction should be imposed using pam_access so that the /etc/passwd and /etc/shadow files stay consistent across all machines.
 IMPORTANT: You must explicitly allow root access via SSH.  While it is certainly more secure to disallow direct access to root remotely, access to root must be maintained so we can grade your machines.
+
+A)
+```
++ : root : ALL
++ : dschrute : ALL
++ : mscott : ALL
++ : mbrown : ALL
+
+- : ALL : ALL
+```
+B)
+```
++ : root : ALL
++ : dschrute : ALL
++ : mscott : ALL
++ : mbrown : ALL
++ : abernard : ALL
++ : kkapoor : ALL
++ : pbeesly : ALL
+- : ALL : ALL
+```
+
+C)
+```
++ : root : ALL
++ : dschrute : ALL
++ : mscott : ALL
++ : mbrown : ALL
+- : ALL : ALL
+```
+
+D)
+```
++ : root : ALL
++ : dschrute : ALL
++ : mscott : ALL
++ : mbrown : ALL
+- : ALL : ALL
+```
+E) No changes necessary
 
 6) Sudo access to all commands, on all machines, should be granted to responsible users who have specifically requested it.  This includes your own personal account.
 
