@@ -66,7 +66,28 @@ Hey, quick question… can you grant me full administrative access on all of the
 
 2) Meredith Palmer must be able to run systemctl restart vsftpd (not start/stop, just restart) on Machine C.  She must be able to read and modify all files and folders under /var/ftp/.
 
+First we edit sudoers using a secure editor (vim leaves files laying around)
+
+```shell
+visudo 
+```
+Then, add this to the end
+```shell
+mpalmer ALL = (ALL) NOPASSWD: /bin/systemctl restart vsftpd
+```
+She can now run sudo systemctl restart vsftpd
+
+We can fix her file permissions using:
+```shell
+chgrp -R mpalmer /var/ftp/
+chmod -R 775 /var/ftp/
+```
+
 3) Pam Beesly, Kelly Kapoor, and Andy Bernard must be allowed to restart the http daemon (not start/stop, just restart) on machine B through sudo, and modify all files under /var/www/dundermifflin/ without affecting the user apache’s ability to read them.
+
+```
+
+```
 
 4) The default umask must be adjusted on machines A, C, D, and E so that when new directories are created the owner can read, write, and execute, the group can read, write and execute, and others have no access.  You need to do either the reading from the prior homework or some independent research to identify how to do this.
 
