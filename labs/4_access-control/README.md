@@ -85,8 +85,31 @@ chmod -R 775 /var/ftp/
 
 3) Pam Beesly, Kelly Kapoor, and Andy Bernard must be allowed to restart the http daemon (not start/stop, just restart) on machine B through sudo, and modify all files under /var/www/dundermifflin/ without affecting the user apache’s ability to read them.
 
+Once again, use `visudo` to edit /etc/sudoers. Then add
+
+```
+pbeesly ALL=(ALL) /usr/bin/systemctl restart httpd
+abernard ALL=(ALL) /usr/bin/systemctl restart httpd
+kkapoor ALL=(ALL) /usr/bin/systemctl restart httpd
 ```
 
+Next, we handle permission first by adding the 3 to a secondary group:
+
+```
+groupadd webdevs
+usermod -a -G webdevs pbeesly
+usermod -a -G webdevs abernard
+usermod -a -G webdevs kkapoor
+```
+
+And next setting their group as owners of the directory
+```
+chown -R :webdevs /var/www/dundermifflin/
+```
+
+Then settings correct permissions
+```
+chmod -R 775 /var/www/dundermifflin/
 ```
 
 4) The default umask must be adjusted on machines A, C, D, and E so that when new directories are created the owner can read, write, and execute, the group can read, write and execute, and others have no access.  You need to do either the reading from the prior homework or some independent research to identify how to do this.
