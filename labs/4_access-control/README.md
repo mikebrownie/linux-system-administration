@@ -8,7 +8,7 @@ _____
 
     Subject: Request for full administrative access
 ____
-My beloved Jim,
+Hello Jim,
 
 
 While allowing you full administrative access may make our lives easier, I can't grant this priviledge as it poses a threat to the security of our network. I do appreciate you stepping up and offering help in "the event you out of town I might need to access employee files or help them out with other things." As a matter of fact, I would love to teach you more about my job and the considerations that go into being a linux system administrator. If you are up for it, we can meet with Michael Scott tomorrow afternoon and discuss the possibility of a weekly training session! 
@@ -60,7 +60,7 @@ Hey, quick question… can you grant me full administrative access on all of the
 
 #### DENIED
 
-## Requirements
+## Requirements + Notes
 
 1) Please submit your lab notes as a pdf,including the password protection policy you propose for our D-M branch office, and your e-mail to Jim.
 
@@ -85,7 +85,7 @@ chmod -R 775 /var/ftp/
 
 3) Pam Beesly, Kelly Kapoor, and Andy Bernard must be allowed to restart the http daemon (not start/stop, just restart) on machine B through sudo, and modify all files under /var/www/dundermifflin/ without affecting the user apache’s ability to read them.
 
-Once again, use `visudo` to edit /etc/sudoers. Then add
+Use `visudo` to securely edit /etc/sudoers. Then add
 
 ```
 pbeesly ALL=(ALL) /usr/bin/systemctl restart httpd
@@ -134,65 +134,90 @@ Do so on A, C, D, and E
 5) Access on each server should be restricted such that only users who need to are allowed to log in.  The one exception is all users should be allowed to log in on machine E.  Access restriction should be imposed using pam_access so that the /etc/passwd and /etc/shadow files stay consistent across all machines.
 IMPORTANT: You must explicitly allow root access via SSH.  While it is certainly more secure to disallow direct access to root remotely, access to root must be maintained so we can grade your machines.
 
-A)
+Note: On Redhat based distros it must be enabled by editing /etc/pam.d/system-auth and adding account required pam_access.so.
 ```
-+ : root : ALL
-+ : dschrute : ALL
-+ : mscott : ALL
-+ : mbrown : ALL
+# Enabling PAM_ACCESS
+account     required      pam_access.so
+```
 
-- : ALL : ALL
+Now we can set rules by editing `/etc/security/access.conf`. These are the configurations for each machine.
+
+A) Machine A is a router, so only admins and mscott can login
 ```
-B)
++:root:ALL
++:dschrute:ALL
++:mscott:ALL
++:mbrown:ALL
+-:ALL:ALL
 ```
-+ : root : ALL
-+ : dschrute : ALL
-+ : mscott : ALL
-+ : mbrown : ALL
-+ : abernard : ALL
-+ : kkapoor : ALL
-+ : pbeesly : ALL
-- : ALL : ALL
+
+B) 
+```
++:root:ALL
++:dschrute:ALL
++:mscott:ALL
++:mbrown:ALL
++:abernard:ALL
++:kkapoor:ALL
++:pbeesly:ALL
+-:ALL:ALL
 ```
 
 C)
 ```
-+ : root : ALL
-+ : dschrute : ALL
-+ : mscott : ALL
-+ : mbrown : ALL
-- : ALL : ALL
++:root:ALL
++:dschrute:ALL
++:mscott:ALL
++:mbrown:ALL
+-:ALL:ALL
 ```
 
 D)
 ```
-+ : root : ALL
-+ : dschrute : ALL
-+ : mscott : ALL
-+ : mbrown : ALL
-- : ALL : ALL
++:dschrute:ALL
++:mscott:ALL
++:mbrown:ALL
++:root:ALL
+-:ALL:ALL
 ```
 E) No changes necessary
 
 6) Sudo access to all commands, on all machines, should be granted to responsible users who have specifically requested it.  This includes your own personal account.
 
-On all machines, run
+On all machines, run:
 
 ```
+useradd -m mbrown
 usermod -a -G wheel mbrown
 usermod -a -G wheel dschrute
 ```
 
 7) Michael Scott should be allowed to shut all servers down with no less than 2 hours notice to other users (see man shutdown).  He should be limited to shutting them down, not restarting.  He should also be allowed to cancel a pending shutdown.
 
-**How to do conditional?**
+Once again, use `visudo` to edit /etc/sudoers. Then add
 
 ```
-mscott ALL=(all) /sbin/shutdown -t 7200,
-mscott ALL=(all) /sbin/shutdown -c,
-mscott ALL=(all) /sbin/halt,
+mscott ALL=(all) /sbin/shutdown +1[2-9][0-9]
+mscott ALL=(ALL) /sbin/shutdown +[1-9][0-9][0-9]
+mscott ALL=(ALL) /sbin/shutdown +[1-9][0-9][0-9][0-9]
+mscott ALL=(ALL) /sbin/shutdown +[1-9][0-9][0-9][0-9][0-9]
+mscott ALL=(ALL) /sbin/shutdown -c
+mscott ALL=(ALL) /sbin/halt
 ```
 
 8) Password changes must be enforced on all servers such that pam ensures that new passwords are at least 10 characters long, and contain at least 2 digits, 2 uppercase, and 1 non alphanumeric character.
 
+
+Open pwquality.conf: 
+```vim /etc/security/pwquality.conf```
+
+Add in rules:
+```
+minlen = 11
+dcredit = -2
+ucredit = -2
+ocredit = -1
+```
+
+Do for all machines
 
