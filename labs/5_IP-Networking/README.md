@@ -125,3 +125,447 @@ If you get a srvfail error message or no results for dundermifflin.com at all th
  
 
 
+# Part 1 DHCP
+
+Log into machine each machine, get mac address
+
+```
+
+ip a
+
+```
+
+link/ether 00:50:56:85:29:0e
+
+  
+
+Now on machine A, edit the dhcpd.conf to set up a DHCP server for the other hosts to pull statically assigned ip addresses based on mac address
+
+  
+
+```
+
+vi /etc/dhcp/dhcpd.conf
+
+```
+
+  
+
+Add the following lines
+
+```
+
+# Internal Network Switch0
+
+subnet 10.21.32.0 netmask 255.255.255.0 {
+
+option routers 10.21.32.1;
+
+option domain-name-servers 100.64.2.4;
+
+option domain-name "dundermifflin.com";
+
+range 10.21.32.2 10.21.32.254;
+
+}
+
+host machinee {
+
+hardware ethernet 00:50:56:85:05:84;
+
+fixed-address 10.21.32.2;
+
+option host-name "roller";
+
+}
+
+  
+
+subnet 100.64.2.0 netmask 255.255.255.0 {
+
+option routers 100.64.2.1;
+
+option domain-name-servers 100.64.2.4;
+
+option domain-name "dundermifflin.com";
+
+range 100.64.2.2 100.64.2.254;
+
+}
+
+host machineb {
+
+hardware ethernet 00:50:56:85:f8:be;
+
+fixed-address 100.64.2.2;
+
+option host-name "carriage";
+
+}
+
+host machinec {
+
+hardware ethernet 00:50:56:85:00:22;
+
+fixed-address 100.64.2.3;
+
+option host-name "platen";
+
+}
+
+host machined {
+
+hardware ethernet 00:50:56:85:61:77;
+
+fixed-address 100.64.2.4;
+
+option host-name "chase";
+
+}
+
+  
+
+host machinef {
+
+hardware ethernet 00:50:56:85:20:0e;
+
+fixed-address 100.64.2.5;
+
+option host-name "saddle";
+
+}
+
+```
+
+Restart dhcpd to apply changes
+
+```
+
+systemctl restart dhcpd
+
+```
+
+  
+
+Make sure dhcpd survives reboot:
+
+  
+
+```
+
+systemctl enable dhcpd
+
+```
+
+On each machine:
+
+  
+
+Modify /etc/sysconfig/network-scripts/ifcfg-ens192
+
+```
+
+TYPE=Ethernet
+
+BOOTPROTO=dhcp
+
+ONBOOT=yes
+
+NETWORKING=yes
+
+```
+
+  
+
+Edit contents of /etc/hostnames to only `localhost.localdomain`
+
+  
+  
+
+Send changes to all machines with scp
+
+```
+
+scp /etc/sysconfig/network-scripts/ifcfg-ens192
+
+100.64.2.x:/etc/sysconfig/network-scripts/ifcfg-ens192
+
+```
+
+  
+
+and
+
+  
+
+```
+
+scp /etc/hostname 100.64.2.13:/etc/hostname
+
+```
+
+  
+  
+
+No entries in leases?
+
+```
+
+cat /var/lib/dhcpd/dhcpd.leases
+
+```
+
+  
+  
+  
+
+## Part 2 DNS
+
+  
+
+Start by manually setting DNS to install required packages
+
+```
+
+vi /etc/sysconfig/network-scripts/ifcfg-eno16780032
+
+```
+
+  
+
+Add `DNS1=8.8.8.8`
+
+  
+
+Apply changes
+
+```
+
+systemctl restart network
+
+```
+
+Now you can resolve hostnames external to the LAN
+
+  
+
+Add these lines to`/etc/named.conf`
+
+```
+
+allow-query { localhost; 100.64.2.0/24; 10.21.32.0/24; };
+
+listen-on port 53 { 127.0.0.1; 100.64.2.0/24; 10.21.32.0/24; };
+
+```
+
+  
+
+Apply changes
+
+```
+
+[root@chase ~]# systemctl enable named
+
+[root@chase ~]# systemctl restart named
+
+```
+
+  
+  
+
+Zone file
+
+```
+
+$TTL 1440
+
+@ IN SOA chase.dundermifflin.com. root.dundermifflin.com. (
+
+1001 ;Serial
+
+3H ;Refresh
+
+15M ;Retry
+
+1W ;Expire
+
+5M ;Minimum TTL
+
+)
+
+dundermifflin.com.  3600  IN  NS  chase.dundermifflin.com.
+
+router.dundermifflin.com.  3600  IN  A  100.64.2.1
+
+carriage.dundermifflin.com.  3600  IN  A  100.64.2.2
+
+platen.dundermifflin.com.  3600  IN  A  100.64.2.3
+
+chase.dundermifflin.com.  3600  IN  A  100.64.2.4
+
+roller.dundermifflin.com.  3600  IN  A  10.21.32.2
+
+saddle.dundermifflin.com.  3600  IN  A  100.64.2.5
+
+machinea.dundermifflin.com.  604800  IN  CNAME  router.dundermifflin.com.
+
+machineb.dundermifflin.com.  604800  IN  CNAME  carriage.dundermifflin.com.
+
+machinec.dundermifflin.com.  604800  IN  CNAME  platen.dundermifflin.com.
+
+machined.dundermifflin.com.  604800  IN  CNAME  chase.dundermifflin.com.
+
+machinee.dundermifflin.com.  604800  IN  CNAME  roller.dundermifflin.com.
+
+machinef.dundermifflin.com.  604800  IN  CNAME  saddle.dundermifflin.com.
+
+; dundermifflin.com.  300  IN  CNAME
+
+dundermifflin.com. 3600 IN A 100.64.2.4
+
+carriage.dundermifflin.com.
+
+www.dundermifflin.com.  300  IN  CNAME  carriage.dundermifflin.com.
+
+www2.dundermifflin.com.  300  IN  CNAME  saddle.dundermifflin.com.
+
+ftp.dundermifflin.com.  300  IN  CNAME  platen.dundermifflin.com.
+
+files.dundermifflin.com.  604800  IN  CNAME  roller.dundermifflin.com.
+
+```
+
+  
+  
+
+Append to /etc/named.conf
+
+```
+
+zone "dundermifflin.com" IN {
+
+type master;
+
+file "/var/named/dundermifflin.com";
+
+allow-update { none; };
+
+};
+
+```
+
+  
+
+Install Dig on machine B
+
+```
+
+yum install bind-utils
+
+```
+
+  
+
+Check that dns is working with dig
+
+```
+
+[root@carriage ~]# dig @100.64.2.4 www.dundermifflin.com
+
+; <<>> DiG 9.11.4-P2RedHat-9.11.4-26.P2.el7_9.7 <<>> @100.64.2.4 www.dundermifflin.com
+
+; (1 server found)
+
+;; global options: +cmd
+
+;; Got answer:
+
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 31056
+
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+
+; EDNS: version: 0, flags:; udp: 4096
+
+;; QUESTION SECTION:
+
+;www.dundermifflin.com. IN A
+
+;; ANSWER SECTION:
+
+www.dundermifflin.com. 300 IN CNAME carriage.dundermifflin.com.
+
+carriage.dundermifflin.com. 3600 IN A 100.64.2.2
+
+;; AUTHORITY SECTION:
+
+dundermifflin.com. 3600 IN NS chase.dundermifflin.com.
+
+;; ADDITIONAL SECTION:
+
+chase.dundermifflin.com. 3600 IN A 100.64.2.4
+
+;; Query time: 1 msec
+
+;; SERVER: 100.64.2.4#53(100.64.2.4)
+
+;; WHEN: Sun Oct 31 14:40:29 MDT 2021
+
+;; MSG SIZE rcvd: 125
+
+```
+
+  
+  
+
+There is an issue with adding a NS and CNAME record to the domain dundermifflin.com.
+
+  
+
+## Part 3 Backup HTTP Rsycnc & Crontab
+
+  
+
+First set up passwordless auth between B and F
+
+  
+
+```
+
+ssh-keygen
+
+```
+
+  
+
+Copy key contents over from B
+
+```
+
+ssh-copy-id root@100.64.2.5
+
+```
+
+  
+
+We will sync every minute using crontab
+
+```
+
+crontab -e
+
+```
+
+  
+
+https://www.geeksforgeeks.org/crontab-in-linux-with-examples/
+
+```
+
+* * * * * rsync -av /var/www root@100.64.2.5:/var/.
+
+* * * * * rsync -av /etc/httpd/ root@100.64.2.5:/etc/httpd/.
+
+```
