@@ -26,3 +26,6 @@ Give students an understanding of a UNIX or Linux environment, and provide a mar
 
 - [shell scripting dashboard and monitor](https://github.com/mikebrownie/linux-system-administration/tree/main/labs/1_shell-scripting)
 - [storage management with LVM](https://github.com/mikebrownie/linux-system-administration/blob/main/labs/2_storage-management/notes.md)
+- [congfiguration management w/ puppet](https://github.com/mikebrownie/linux-system-administration/tree/main/labs/3_configuration-management)
+- [access control](https://github.com/mikebrownie/linux-system-administration/tree/main/labs/4_access-control)
+- [ip networking](https://github.com/mikebrownie/linux-system-administration/tree/main/labs/5_IP-Networking)
